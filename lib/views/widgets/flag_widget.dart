@@ -1,22 +1,27 @@
-import 'package:countries/models/country.dart';
+import 'package:countries/controllers/country_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_fade/image_fade.dart';
 
-class Flag extends StatelessWidget {
-  final Country country;
-  final double? width;
-  final double? height;
-
-  const Flag({super.key, required this.country, this.width, this.height});
+class CorrectFlag extends ConsumerWidget {
+  const CorrectFlag({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final String assetName = 'assets/flags/${country.cca2!.toLowerCase()}.png';
-    return ImageFade(
-      fit: BoxFit.contain,
-      image: AssetImage(assetName),
-      width: width,
-      height: height,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final c = ref.watch(countryProvider).correctCountry;
+
+    final h = MediaQuery.of(context).size.height * 0.3;
+    final w = MediaQuery.of(context).size.width * 0.4;
+    final String assetName = 'assets/flags/${c.cca2!.toLowerCase()}.png';
+    return LimitedBox(
+      maxHeight: h,
+      maxWidth: w,
+      child: ImageFade(
+        fit: BoxFit.contain,
+        image: AssetImage(assetName),
+        width: w,
+        height: h,
+      ),
     );
   }
 }

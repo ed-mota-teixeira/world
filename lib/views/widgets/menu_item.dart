@@ -11,12 +11,12 @@ class GameMainMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsetsDirectional.only(top: 40, start: 16, end: 16),
-      width: MediaQuery.of(context).size.width / 2,
+     // width: MediaQuery.of(context).size.width / 2,
       child: RawMaterialButton(
           onPressed: onPressed,
           fillColor: Theme.of(context).primaryColor,
           splashColor: Colors.blueGrey,
-          highlightColor: Colors.grey,
+          highlightColor: Colors.blueGrey,
           child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis))),

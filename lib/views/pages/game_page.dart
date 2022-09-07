@@ -1,26 +1,24 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:countries/controllers/country_provider.dart';
-import 'package:countries/controllers/process_countries_game_control.dart';
-import 'package:countries/models/countries_list.dart';
+import 'package:countries/models/game_page_argument.dart';
 import 'package:countries/utils/constants.dart';
 import 'package:countries/views/widgets/final_score_indicator_widget.dart';
-import 'package:countries/views/widgets/flag_widget.dart';
 import 'package:countries/views/widgets/selection_pad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FlagsGamePage extends ConsumerStatefulWidget {
-  final bool? easy;
-  const FlagsGamePage({super.key, this.easy = false});
+class GamePage extends ConsumerStatefulWidget {
+  final GamePageArgument data;
+
+  const GamePage({super.key, required this.data});
 
   @override
-  createState() => _FlagsGamePage();
+  createState() => _GamePage();
 }
 
-class _FlagsGamePage extends ConsumerState<FlagsGamePage> {
+class _GamePage extends ConsumerState<GamePage> {
   double _progressValue = 0.0;
   double _startValue = 0.0;
   bool done = false;
@@ -35,25 +33,8 @@ class _FlagsGamePage extends ConsumerState<FlagsGamePage> {
     _progressValue = 0.0;
     _startValue = 0.0;
     done = false;
-    CountriesList().list.shuffle(Random(DateTime.now().second));
-    ref.read(countryProvider).init();
-    if (widget.easy != null) {
-      if (widget.easy!) {
-        ref.read(countryProvider).changeSource(easyCountriesCode);
-      }
-    }
-  }
-
-  Widget _flag() {
-    var h = MediaQuery.of(context).size.height * 0.3;
-    var w = MediaQuery.of(context).size.width * 0.4;
-    return LimitedBox(
-        maxHeight: h,
-        maxWidth: w,
-        child: Flag(
-            country: ref.read(countryProvider).correctCountry,
-            width: w,
-            height: h));
+    widget.data.list.shuffle(Random(DateTime.now().second));
+    ref.read(countryProvider).init(widget.data.list);
   }
 
   void _updateProgress(bool correctPressed) {
@@ -86,7 +67,7 @@ class _FlagsGamePage extends ConsumerState<FlagsGamePage> {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 2,
       child: ElevatedButton(
-          child: const Text('Restart',
+          child: const Text('RESTART',
               maxLines: 1, overflow: TextOverflow.ellipsis),
           onPressed: () {
             _start();
@@ -102,7 +83,6 @@ class _FlagsGamePage extends ConsumerState<FlagsGamePage> {
   @override
   Widget build(BuildContext context) {
     var control = ref.watch(countryProvider);
-
     return SafeArea(
         child: Scaffold(
       appBar:
@@ -119,7 +99,7 @@ class _FlagsGamePage extends ConsumerState<FlagsGamePage> {
                 maintainAnimation: true,
                 maintainState: true,
                 visible: !done,
-                child: _flag()),
+                child: widget.data.guessWidget),
             Visibility(
               maintainSize: false,
               maintainAnimation: true,
@@ -147,7 +127,8 @@ class _FlagsGamePage extends ConsumerState<FlagsGamePage> {
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
                     type: AnimatedSnackBarType.warning,
                     mobileSnackBarPosition: MobileSnackBarPosition.bottom,
-                    desktopSnackBarPosition: DesktopSnackBarPosition.topRight,
+                    desktopSnackBarPosition:
+                        DesktopSnackBarPosition.bottomCenter,
                   ).show(context);
                 },
               ),

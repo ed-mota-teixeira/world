@@ -2,36 +2,7 @@ import 'dart:math';
 
 import 'package:countries/models/countries_list.dart';
 import 'package:countries/models/country.dart';
-import 'package:quiver/strings.dart';
 
-const List<String> easyCountriesCode = [
-  'FR',
-  'ES',
-  'DE',
-  'JP',
-  'RU',
-  'CA',
-  'IT',
-  'GB',
-  'US',
-  'BR',
-  'TR',
-  'PL',
-  'AU',
-  'ID',
-  'DK',
-  'MX',
-  'CH',
-  'MA',
-  'CN',
-  'UA',
-  'IN',
-  'IE',
-  'KR',
-  'IL',
-  'VN',
-  'GR',
-];
 
 class CountriesGameProcessControl {
   int index = -1;
@@ -46,41 +17,17 @@ class CountriesGameProcessControl {
 
   CountriesGameProcessControl(this.howManyWrongCountries);
 
-  void init() {
+  void init(List<Country> newSource) {
     source.clear();
-    source.addAll(CountriesList().list);
+    source.addAll(newSource);
+    source.shuffle(Random(DateTime.now().second));
     correctAnswers = 0;
     answered = 0;
     next();
   }
 
-  void changeSource(List<String> cca2) {
-    source.clear();
-    if (cca2.isEmpty) {
-      source.addAll(CountriesList().list);
-    } else {
-      source.addAll(CountriesList().list.where((c) =>
-          cca2.firstWhere((a) => a.toLowerCase() == c.cca2!.toLowerCase(),
-              orElse: () => ' ') ==
-          c.cca2!));
-    }
-    correctAnswers = 0;
-    answered = 0;
-    next();
-  }
-
-  List<String> processSourceWhereCountryCapitalExists() {
-    List<String> src = [];
-
-    for (var e in CountriesList().list) {
-      if (e.capital != null && e.capital!.isNotEmpty) {
-        if (isNotBlank(e.capital!.first)) {
-          src.add(e.cca2!);
-        }
-      }
-    }
-
-    return src;
+  void newSource(List<Country> countriesSource) {
+    init(countriesSource);
   }
 
   CountriesGameProcessControl copy() {
@@ -115,11 +62,13 @@ class CountriesGameProcessControl {
         (e) => e.toLowerCase() == correctCountry.name!.common!.toLowerCase());
   }
 
+  // Must be called before provideWrongCountries method
   Country nextCorrectCountry() {
     index = index + 1 >= source.length ? 0 : ++index;
     return source.elementAt(index);
   }
 
+  // Must be called after nextCorrectCountry method
   List<Country> provideWrongCountries(int quantity) {
     final List<Country> countries = [];
     int howManySoFar = 0;

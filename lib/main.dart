@@ -1,8 +1,8 @@
 import 'package:countries/enums/transitions_enums.dart';
+import 'package:countries/models/game_page_argument.dart';
 import 'package:countries/utils/routing/route_names.dart';
-import 'package:countries/views/pages/capitals_game_page.dart';
 import 'package:countries/views/pages/error_page.dart';
-import 'package:countries/views/pages/flags_game_page.dart';
+import 'package:countries/views/pages/game_page.dart';
 import 'package:countries/views/pages/menu_page.dart';
 import 'package:countries/views/pages/start_page.dart';
 import 'package:countries/views/transitions/transition_route.dart';
@@ -35,10 +35,9 @@ class MyApp extends ConsumerWidget {
           case kMenuRoute:
             return createRoute(const MenuPage(), TransitionType.fade);
           case kFlagsGameRoute:
-            var easy = settings.arguments as bool?;
-            return createRoute(FlagsGamePage(easy: easy), TransitionType.fade);
           case kCapitalsGameRoute:
-            return createRoute(const CapitalsGamePage(), TransitionType.fade);
+            var data = settings.arguments as GamePageArgument;
+            return createRoute(GamePage(data: data), TransitionType.fade);
           default:
             return createRoute(const ErrorPage(), TransitionType.fade);
         }
