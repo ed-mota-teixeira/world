@@ -1,7 +1,9 @@
 
 const List<String> easyCountriesCode = [
   'FR',
+  'NZ',
   'ES',
+  'SE',
   'DE',
   'JP',
   'RU',
@@ -26,4 +28,11 @@ const List<String> easyCountriesCode = [
   'IL',
   'VN',
   'GR',
+  'ZA',
+  'NP',
+  'NI',
+  'AT',
+  'IR',
+  'NL',
+  'JM',
 ];

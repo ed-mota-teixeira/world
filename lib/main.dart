@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:countries/enums/transitions_enums.dart';
 import 'package:countries/models/game_page_argument.dart';
 import 'package:countries/utils/routing/route_names.dart';
@@ -6,10 +8,22 @@ import 'package:countries/views/pages/game_page.dart';
 import 'package:countries/views/pages/menu_page.dart';
 import 'package:countries/views/pages/start_page.dart';
 import 'package:countries/views/transitions/transition_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:window_size/window_size.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if(!kIsWeb) {
+    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+      setWindowTitle('WORLD QUIZ');
+      setWindowMaxSize(const Size(1056, 1064));
+      setWindowMinSize(const Size(800, 656));
+    }
+  }
+
   runApp(const ProviderScope(child: MyApp()));
 }
 

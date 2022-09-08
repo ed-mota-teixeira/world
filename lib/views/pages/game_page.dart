@@ -22,6 +22,7 @@ class _GamePage extends ConsumerState<GamePage> {
   double _progressValue = 0.0;
   double _startValue = 0.0;
   bool done = false;
+  bool _good = false;
 
   @override
   void initState() {
@@ -32,6 +33,7 @@ class _GamePage extends ConsumerState<GamePage> {
   void _start() {
     _progressValue = 0.0;
     _startValue = 0.0;
+    _good = false;
     done = false;
     widget.data.list.shuffle(Random(DateTime.now().second));
     ref.read(countryProvider).init(widget.data.list);
@@ -39,6 +41,10 @@ class _GamePage extends ConsumerState<GamePage> {
 
   void _updateProgress(bool correctPressed) {
     ref.read(countryProvider).answered = ref.read(countryProvider).answered + 1;
+
+    if (correctPressed) {
+      setState(() => _good = true);
+    }
 
     Future.delayed(const Duration(milliseconds: 1000), () {
       setState(() {
@@ -51,12 +57,16 @@ class _GamePage extends ConsumerState<GamePage> {
         Future.delayed(
             const Duration(milliseconds: 300),
             () => setState(() {
+                  _good = false;
                   _startValue = (ref.read(countryProvider).correctAnswers *
                       100 /
                       kMaxAnswersPerGame);
                 }));
       } else {
         Future.delayed(const Duration(milliseconds: 1000), () {
+          if (_good) {
+            setState(() => _good = false);
+          }
           ref.read(countryProvider.notifier).next();
         });
       }
@@ -73,6 +83,7 @@ class _GamePage extends ConsumerState<GamePage> {
             _start();
             setState(() {
               done = false;
+              _good = false;
               _progressValue = 0;
               _startValue = 0.0;
             });
@@ -101,6 +112,14 @@ class _GamePage extends ConsumerState<GamePage> {
                 visible: !done,
                 child: widget.data.guessWidget),
             Visibility(
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              visible: _good,
+              child: Icon(Icons.check_circle_outline,
+                  size: 80, color: Theme.of(context).primaryColor),
+            ),
+            Visibility(
               maintainSize: false,
               maintainAnimation: true,
               maintainState: true,
@@ -113,7 +132,6 @@ class _GamePage extends ConsumerState<GamePage> {
                 texts: ref.read(countryProvider).names,
                 correctIndex: control.correctNameIndex,
                 onCorrectPressed: () {
-                  // TODO: show congratulations or victory sound
                   //  debugPrint('Well done!');
                   control.correctAnswers = control.correctAnswers + 1;
                   _updateProgress(true);

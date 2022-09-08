@@ -1,13 +1,14 @@
-import 'package:countries/models/country.dart';
+import 'package:countries/controllers/country_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CapitalName extends StatelessWidget {
-  final Country country;
-
-  const CapitalName({super.key, required this.country});
+class CapitalName extends ConsumerWidget {
+  const CapitalName({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final c = ref.watch(countryProvider).correctCountry;
+
     return Container(
       width: double.maxFinite,
       decoration: const BoxDecoration(
@@ -16,7 +17,7 @@ class CapitalName extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Text(
-          country.capital!.first,
+          c.capital!.first,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,

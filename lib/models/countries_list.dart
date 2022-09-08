@@ -1,4 +1,5 @@
 import 'package:countries/models/country.dart';
+import 'package:quiver/strings.dart';
 
 class CountriesList {
   late List<Country> list;
@@ -14,5 +15,23 @@ class CountriesList {
 
   List<Country> notFromCca2(List<String> cca2List) {
     return list.where((element) => !cca2List.contains(element.cca2!)).toList();
+  }
+
+  List<Country> fromCca2WithCapitals(List<String> cca2List) {
+    return fromCca2(cca2List)
+        .where((e) => e.capital != null && isNotEmpty(e.capital!.first))
+        .toList();
+  }
+
+  List<Country> notFromCca2WithCapitals(List<String> cca2List) {
+    return notFromCca2(cca2List)
+        .where((e) => e.capital != null && isNotEmpty(e.capital!.first))
+        .toList();
+  }
+
+  List<Country> allWithCapitals() {
+    return list
+        .where((e) => e.capital != null && isNotEmpty(e.capital!.first))
+        .toList();
   }
 }

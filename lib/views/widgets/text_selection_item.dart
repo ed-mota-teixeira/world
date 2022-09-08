@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class TextSelectionItem extends StatelessWidget {
@@ -21,7 +22,7 @@ class TextSelectionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool android = Platform.isAndroid;
+    bool android = !kIsWeb ? Platform.isAndroid : false;
 
     return SizedBox(
       width: width,

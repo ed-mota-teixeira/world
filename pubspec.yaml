@@ -45,6 +45,11 @@ dependencies:
   animated_flip_counter: ^0.2.5
   # images
   image_fade: ^0.6.1
+  # Microsoft Windows specific
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding
+      path: plugins/window_size
 
 dev_dependencies:
   flutter_test:
