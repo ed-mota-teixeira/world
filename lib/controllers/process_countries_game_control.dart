@@ -55,7 +55,6 @@ class CountriesGameProcessControl {
     // debugPrint('Correct name: ${correctCountry.name!.common!}');
     for (var e in wrongCountries) {
       names.add(e.name!.common!);
-      // debugPrint('Incorrect name: ${e.name!.common!}');
     }
     names.shuffle(Random(DateTime.now().second));
     correctNameIndex = names.indexWhere(

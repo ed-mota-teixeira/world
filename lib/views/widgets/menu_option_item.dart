@@ -8,18 +8,22 @@ class MenuOptionItem extends StatelessWidget {
   final VoidCallback onEasyPressed;
   final VoidCallback onHardPressed;
   final VoidCallback onRandomPressed;
+  final VoidCallback? onLearnPressed;
 
   const MenuOptionItem(
       {super.key,
       required this.title,
       required this.onEasyPressed,
       required this.onHardPressed,
-      required this.onRandomPressed});
+      required this.onRandomPressed,
+      this.onLearnPressed});
 
   @override
   Widget build(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
-    var isDesktop = !kIsWeb ? Platform.isWindows || Platform.isLinux || Platform.isMacOS : true;
+    var isDesktop = !kIsWeb
+        ? Platform.isWindows || Platform.isLinux || Platform.isMacOS
+        : true;
 
     return Container(
         width: isDesktop ? w / 2 : w - 48,
@@ -38,10 +42,21 @@ class MenuOptionItem extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline6,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            Wrap(
+              alignment: WrapAlignment.center,
               children: [
+                if (onLearnPressed != null)
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(
+                        start: 12, end: 12, bottom: 12),
+                    child: OutlinedButton(
+                      onPressed: onLearnPressed,
+                      child: const Text('LEARN',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.white70)),
+                    ),
+                  ),
                 Padding(
                   padding: const EdgeInsetsDirectional.only(
                       start: 12, end: 12, bottom: 12),

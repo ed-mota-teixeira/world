@@ -1,3 +1,4 @@
+import 'package:countries/controllers/sound.dart';
 import 'package:countries/models/countries_list.dart';
 import 'package:countries/models/country.dart';
 import 'package:countries/utils/routing/route_names.dart';
@@ -18,6 +19,7 @@ class _StartPage extends ConsumerState<StartPage> {
     String data = await DefaultAssetBundle.of(context)
         .loadString("assets/countries.json");
     CountriesList().list = countriesFromJson(data);
+    await Sound().setSources();
     return data;
   }
 

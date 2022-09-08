@@ -5,6 +5,7 @@ import 'package:countries/models/game_page_argument.dart';
 import 'package:countries/utils/routing/route_names.dart';
 import 'package:countries/views/pages/error_page.dart';
 import 'package:countries/views/pages/game_page.dart';
+import 'package:countries/views/pages/learn_flags_page.dart';
 import 'package:countries/views/pages/menu_page.dart';
 import 'package:countries/views/pages/start_page.dart';
 import 'package:countries/views/transitions/transition_route.dart';
@@ -16,7 +17,7 @@ import 'package:window_size/window_size.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if(!kIsWeb) {
+  if (!kIsWeb) {
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       setWindowTitle('WORLD QUIZ');
       setWindowMaxSize(const Size(1056, 1064));
@@ -52,6 +53,8 @@ class MyApp extends ConsumerWidget {
           case kCapitalsGameRoute:
             var data = settings.arguments as GamePageArgument;
             return createRoute(GamePage(data: data), TransitionType.fade);
+          case kLearnFlagsRoute:
+            return createRoute(const LearnFlagsPage(), TransitionType.slideUp);
           default:
             return createRoute(const ErrorPage(), TransitionType.fade);
         }

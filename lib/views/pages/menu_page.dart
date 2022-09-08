@@ -54,12 +54,17 @@ class MenuPage extends ConsumerWidget {
         const CapitalName());
   }
 
+  void _goToLearnFlags(BuildContext context) {
+    Navigator.of(context).pushNamed(kLearnFlagsRoute);
+  }
+
   Widget flagsGameOptions(BuildContext context) {
     return MenuOptionItem(
         title: 'FLAGS',
         onEasyPressed: () => _goToEasyFlags(context),
         onHardPressed: () => _goToHardFlags(context),
-        onRandomPressed: () => _goToRandomFlags(context));
+        onRandomPressed: () => _goToRandomFlags(context),
+        onLearnPressed: () => _goToLearnFlags(context));
   }
 
   Widget capitalsGameOptions(BuildContext context) {
@@ -79,18 +84,20 @@ class MenuPage extends ConsumerWidget {
           centerTitle: true,
         ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsetsDirectional.only(top: 24),
-                child: flagsGameOptions(context),
-              ),
-              Padding(
-                padding: const EdgeInsetsDirectional.only(top: 24),
-                child: capitalsGameOptions(context),
-              ),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(top: 24),
+                  child: flagsGameOptions(context),
+                ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(top: 24),
+                  child: capitalsGameOptions(context),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -34,4 +34,5 @@ class CountriesList {
         .where((e) => e.capital != null && isNotEmpty(e.capital!.first))
         .toList();
   }
+
 }

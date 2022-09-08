@@ -260,6 +260,7 @@ class Translation {
         "official": official,
         "common": common,
       };
+
 }
 
 final regionValues = EnumValues({

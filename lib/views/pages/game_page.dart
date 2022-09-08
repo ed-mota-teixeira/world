@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:countries/controllers/country_provider.dart';
+import 'package:countries/controllers/sound.dart';
 import 'package:countries/models/game_page_argument.dart';
 import 'package:countries/utils/constants.dart';
 import 'package:countries/views/widgets/final_score_indicator_widget.dart';
@@ -47,27 +49,39 @@ class _GamePage extends ConsumerState<GamePage> {
     }
 
     Future.delayed(const Duration(milliseconds: 1000), () {
-      setState(() {
-        _progressValue =
-            ref.read(countryProvider).correctAnswers / 100 * kMaxAnswersPerGame;
-        done = ref.read(countryProvider).answered >= kMaxAnswersPerGame;
-      });
+      if (mounted) {
+        setState(() {
+          _progressValue = ref.read(countryProvider).correctAnswers /
+              100 *
+              kMaxAnswersPerGame;
+          done = ref.read(countryProvider).answered >= kMaxAnswersPerGame;
+        });
+      }
 
       if (done) {
-        Future.delayed(
-            const Duration(milliseconds: 300),
-            () => setState(() {
-                  _good = false;
-                  _startValue = (ref.read(countryProvider).correctAnswers *
-                      100 /
-                      kMaxAnswersPerGame);
-                }));
+        var ansW = ref.read(countryProvider).correctAnswers;
+        if (ansW >= 8) {
+          Sound().winner80Sound.play(AssetSource(kWin80Sound));
+        } else if (ansW > 5) {
+          Sound().winner60Sound.play(AssetSource(kWin60Sound));
+        } else {
+          Sound().looseSound.play(AssetSource(kFailedSound));
+        }
+
+        Future.delayed(const Duration(milliseconds: 300), () {
+          if (mounted) {
+            setState(() {
+              _good = false;
+              _startValue = (ansW * 100 / kMaxAnswersPerGame);
+            });
+          }
+        });
       } else {
         Future.delayed(const Duration(milliseconds: 1000), () {
-          if (_good) {
+          if (_good && mounted) {
             setState(() => _good = false);
           }
-          ref.read(countryProvider.notifier).next();
+          if (mounted) ref.read(countryProvider.notifier).next();
         });
       }
     });
@@ -81,12 +95,14 @@ class _GamePage extends ConsumerState<GamePage> {
               maxLines: 1, overflow: TextOverflow.ellipsis),
           onPressed: () {
             _start();
-            setState(() {
-              done = false;
-              _good = false;
-              _progressValue = 0;
-              _startValue = 0.0;
-            });
+            if (mounted) {
+              setState(() {
+                done = false;
+                _good = false;
+                _progressValue = 0;
+                _startValue = 0.0;
+              });
+            }
           }),
     );
   }
@@ -94,6 +110,7 @@ class _GamePage extends ConsumerState<GamePage> {
   @override
   Widget build(BuildContext context) {
     var control = ref.watch(countryProvider);
+
     return SafeArea(
         child: Scaffold(
       appBar:
@@ -132,22 +149,26 @@ class _GamePage extends ConsumerState<GamePage> {
                 texts: ref.read(countryProvider).names,
                 correctIndex: control.correctNameIndex,
                 onCorrectPressed: () {
-                  //  debugPrint('Well done!');
+                  Sound()
+                      .correctSelectionPlayer
+                      .play(AssetSource(kCorrectSound));
                   control.correctAnswers = control.correctAnswers + 1;
                   _updateProgress(true);
                 },
                 onIncorrectPressed: () {
-                  // debugPrint('No no. Incorrect!');
+                  Sound().wrongSelectionPlayer.play(AssetSource(kWrongSound));
                   _updateProgress(false);
-                  AnimatedSnackBar.material(
-                    duration: const Duration(milliseconds: 700),
-                    control.correctCountry.name!.common!,
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    type: AnimatedSnackBarType.warning,
-                    mobileSnackBarPosition: MobileSnackBarPosition.bottom,
-                    desktopSnackBarPosition:
-                        DesktopSnackBarPosition.bottomCenter,
-                  ).show(context);
+                  if (mounted) {
+                    AnimatedSnackBar.material(
+                      duration: const Duration(milliseconds: 700),
+                      control.correctCountry.name!.common!,
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      type: AnimatedSnackBarType.warning,
+                      mobileSnackBarPosition: MobileSnackBarPosition.bottom,
+                      desktopSnackBarPosition:
+                          DesktopSnackBarPosition.bottomCenter,
+                    ).show(context);
+                  }
                 },
               ),
             ),
