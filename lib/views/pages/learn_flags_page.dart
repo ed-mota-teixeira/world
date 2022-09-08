@@ -25,26 +25,25 @@ class LearnFlagsPage extends ConsumerWidget {
               alignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: [
-                IconButton(
-                  color: Theme.of(context).primaryColor,
-                  iconSize: 80,
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      elevation: 0),
                   onPressed: () => ref.read(learnProvider.notifier).previous(),
-                  icon: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
-                    child: const Icon(Icons.arrow_circle_left),
+                  child: const Center(
+                    child: Icon(Icons.arrow_back_rounded,
+                        size: 60, color: Colors.white),
                   ),
                 ),
-                IconButton(
-                  iconSize: 80,
-                  color: Theme.of(context).primaryColor,
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      elevation: 0),
                   onPressed: () => ref.read(learnProvider.notifier).next(),
-                  icon: Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(50))),
-                      child: const Icon(Icons.arrow_circle_right)),
+                  child: const Center(
+                    child: Icon(Icons.arrow_forward_rounded,
+                        size: 60, color: Colors.white),
+                  ),
                 ),
               ],
             ),

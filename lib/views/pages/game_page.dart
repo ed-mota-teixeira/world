@@ -25,6 +25,7 @@ class _GamePage extends ConsumerState<GamePage> {
   double _startValue = 0.0;
   bool done = false;
   bool _good = false;
+  bool _doNotTouch = false;
 
   @override
   void initState() {
@@ -33,6 +34,7 @@ class _GamePage extends ConsumerState<GamePage> {
   }
 
   void _start() {
+    _doNotTouch = false;
     _progressValue = 0.0;
     _startValue = 0.0;
     _good = false;
@@ -45,7 +47,12 @@ class _GamePage extends ConsumerState<GamePage> {
     ref.read(countryProvider).answered = ref.read(countryProvider).answered + 1;
 
     if (correctPressed) {
-      setState(() => _good = true);
+      setState(() {
+        _good = true;
+        _doNotTouch = true;
+      });
+    } else {
+      setState(() => _doNotTouch = true);
     }
 
     Future.delayed(const Duration(milliseconds: 1000), () {
@@ -72,6 +79,7 @@ class _GamePage extends ConsumerState<GamePage> {
           if (mounted) {
             setState(() {
               _good = false;
+              _doNotTouch = false;
               _startValue = (ansW * 100 / kMaxAnswersPerGame);
             });
           }
@@ -79,7 +87,12 @@ class _GamePage extends ConsumerState<GamePage> {
       } else {
         Future.delayed(const Duration(milliseconds: 1000), () {
           if (_good && mounted) {
-            setState(() => _good = false);
+            setState(() {
+              _good = false;
+              _doNotTouch = false;
+            });
+          } else if (!_good && mounted) {
+            setState(() => _doNotTouch = false);
           }
           if (mounted) ref.read(countryProvider.notifier).next();
         });
@@ -91,12 +104,17 @@ class _GamePage extends ConsumerState<GamePage> {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 2,
       child: OutlinedButton(
-          child:  Text('RESTART',
-              maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: Theme.of(context).primaryColor),),
+          child: Text(
+            'RESTART',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: Theme.of(context).primaryColor),
+          ),
           onPressed: () {
             _start();
             if (mounted) {
               setState(() {
+                _doNotTouch = false;
                 done = false;
                 _good = false;
                 _progressValue = 0;
@@ -158,6 +176,7 @@ class _GamePage extends ConsumerState<GamePage> {
                 texts: ref.read(countryProvider).names,
                 correctIndex: control.correctNameIndex,
                 onCorrectPressed: () {
+                  if (_doNotTouch) return;
                   Sound()
                       .correctSelectionPlayer
                       .play(AssetSource(kCorrectSound));
@@ -165,6 +184,7 @@ class _GamePage extends ConsumerState<GamePage> {
                   _updateProgress(true);
                 },
                 onIncorrectPressed: () {
+                  if (_doNotTouch) return;
                   Sound().wrongSelectionPlayer.play(AssetSource(kWrongSound));
                   _updateProgress(false);
                   if (mounted) {

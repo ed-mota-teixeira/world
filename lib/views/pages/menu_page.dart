@@ -12,25 +12,36 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class MenuPage extends ConsumerWidget {
   const MenuPage({super.key});
 
+  final titleFlags = 'FLAGS';
+  final titleCapitals = 'CAPITALS';
+
   void goToGame(BuildContext context, String route, List<Country> countries,
-      Widget gWidget) {
-    Navigator.of(context)
-        .pushNamed(route, arguments: GamePageArgument(countries, gWidget));
+      Widget gWidget, String title) {
+    Navigator.of(context).pushNamed(route,
+        arguments: GamePageArgument(countries, gWidget, title: title));
   }
 
   void _goToEasyFlags(BuildContext context) {
-    goToGame(context, kFlagsGameRoute,
-        CountriesList().fromCca2(easyCountriesCode), const CorrectFlag());
+    goToGame(
+        context,
+        kFlagsGameRoute,
+        CountriesList().fromCca2(easyCountriesCode),
+        const CorrectFlag(),
+        titleFlags);
   }
 
   void _goToHardFlags(BuildContext context) {
-    goToGame(context, kFlagsGameRoute,
-        CountriesList().notFromCca2(easyCountriesCode), const CorrectFlag());
+    goToGame(
+        context,
+        kFlagsGameRoute,
+        CountriesList().notFromCca2(easyCountriesCode),
+        const CorrectFlag(),
+        titleFlags);
   }
 
   void _goToRandomFlags(BuildContext context) {
-    goToGame(
-        context, kFlagsGameRoute, CountriesList().list, const CorrectFlag());
+    goToGame(context, kFlagsGameRoute, CountriesList().list,
+        const CorrectFlag(), titleFlags);
   }
 
   void _goToEasyCapitals(BuildContext context) {
@@ -38,12 +49,13 @@ class MenuPage extends ConsumerWidget {
         context,
         kFlagsGameRoute,
         CountriesList().fromCca2WithCapitals(easyCountriesCode),
-        const CapitalName());
+        const CapitalName(),
+        titleCapitals);
   }
 
   void _goToRandomCapitals(BuildContext context) {
     goToGame(context, kFlagsGameRoute, CountriesList().allWithCapitals(),
-        const CapitalName());
+        const CapitalName(), titleCapitals);
   }
 
   void _goToHardCapitals(BuildContext context) {
@@ -51,7 +63,8 @@ class MenuPage extends ConsumerWidget {
         context,
         kFlagsGameRoute,
         CountriesList().notFromCca2WithCapitals(easyCountriesCode),
-        const CapitalName());
+        const CapitalName(),
+        titleCapitals);
   }
 
   void _goToLearnFlags(BuildContext context) {
@@ -60,7 +73,7 @@ class MenuPage extends ConsumerWidget {
 
   Widget flagsGameOptions(BuildContext context) {
     return MenuOptionItem(
-        title: 'FLAGS',
+        title: titleFlags,
         onEasyPressed: () => _goToEasyFlags(context),
         onHardPressed: () => _goToHardFlags(context),
         onRandomPressed: () => _goToRandomFlags(context),
@@ -69,7 +82,7 @@ class MenuPage extends ConsumerWidget {
 
   Widget capitalsGameOptions(BuildContext context) {
     return MenuOptionItem(
-        title: 'CAPITALS',
+        title: titleCapitals,
         onEasyPressed: () => _goToEasyCapitals(context),
         onHardPressed: () => _goToHardCapitals(context),
         onRandomPressed: () => _goToRandomCapitals(context));
