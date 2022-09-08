@@ -90,9 +90,9 @@ class _GamePage extends ConsumerState<GamePage> {
   Widget _tryAgainButton() {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 2,
-      child: ElevatedButton(
-          child: const Text('RESTART',
-              maxLines: 1, overflow: TextOverflow.ellipsis),
+      child: OutlinedButton(
+          child:  Text('RESTART',
+              maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: Theme.of(context).primaryColor),),
           onPressed: () {
             _start();
             if (mounted) {
@@ -113,8 +113,8 @@ class _GamePage extends ConsumerState<GamePage> {
 
     return SafeArea(
         child: Scaffold(
-      appBar:
-          AppBar(automaticallyImplyLeading: true, title: const Text('FLAGS')),
+      appBar: AppBar(
+          automaticallyImplyLeading: true, title: Text(widget.data.title)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -133,8 +133,17 @@ class _GamePage extends ConsumerState<GamePage> {
               maintainAnimation: true,
               maintainState: true,
               visible: _good,
-              child: Icon(Icons.check_circle_outline,
-                  size: 80, color: Theme.of(context).primaryColor),
+              child: Container(
+                width: 80,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(50)),
+                child: const Icon(
+                  Icons.check_circle_outline,
+                  size: 80,
+                  color: Colors.orange,
+                ),
+              ),
             ),
             Visibility(
               maintainSize: false,

@@ -35,11 +35,17 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
+      themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
       title: 'Countries',
-      theme: ThemeData.from(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.blueGrey, background: Colors.blueGrey)),
+      theme: ThemeData(
+        fontFamily: 'BaiJam',
+        // primaryColor: const Color(0xff344955),
+        primaryColor: const Color(0xff4a4977),
+        scaffoldBackgroundColor: const Color(0xffbdbdbd),
+        useMaterial3: true,
+        // primaryColor: const Color(0xff4A6570),
+      ),
       initialRoute: kStartRoute,
       onUnknownRoute: (settings) =>
           createRoute(const ErrorPage(), TransitionType.fade),
@@ -54,7 +60,7 @@ class MyApp extends ConsumerWidget {
             var data = settings.arguments as GamePageArgument;
             return createRoute(GamePage(data: data), TransitionType.fade);
           case kLearnFlagsRoute:
-            return createRoute(const LearnFlagsPage(), TransitionType.slideUp);
+            return createRoute(const LearnFlagsPage(), TransitionType.fade);
           default:
             return createRoute(const ErrorPage(), TransitionType.fade);
         }

@@ -28,13 +28,7 @@ class TextSelectionItem extends StatelessWidget {
       width: width,
       height: height,
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: color,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(0),
-          ),
-          elevation: 0,
-        ),
+        style: ElevatedButton.styleFrom(backgroundColor: color, elevation: 0),
         onPressed: onPressed,
         child: Center(
           child: Text(
