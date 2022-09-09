@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:countries/models/countries_list.dart';
 import 'package:countries/models/country.dart';
+import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
 
 class RegionsGameProcessControl {
@@ -10,16 +11,17 @@ class RegionsGameProcessControl {
   int correctAnswers = 0;
   int answered = 0;
 
+  int processType = 0; // 0 == regions, 1 == subregions
+
   final int howManyWrongCountries = 3;
   late Country correctCountry;
   final List<Country> wrongCountries = [];
   final List<String> names = [];
   final List<Country> source = [];
-  final int processType; // 0 == regions, 1 == subregions
   final List<String> availableRegions = [];
   final List<String> availableSubregions = [];
 
-  RegionsGameProcessControl(this.processType);
+  RegionsGameProcessControl();
 
   void init(List<Country> newSource) {
     availableRegions.clear();
@@ -49,7 +51,7 @@ class RegionsGameProcessControl {
   }
 
   RegionsGameProcessControl copy() {
-    var f = RegionsGameProcessControl(howManyWrongCountries);
+    var f = RegionsGameProcessControl();
     f.names.clear();
     f.names.addAll(names);
     f.correctNameIndex = correctNameIndex;
@@ -61,11 +63,19 @@ class RegionsGameProcessControl {
     f.source.addAll(source);
     f.answered = answered;
     f.correctAnswers = correctAnswers;
+    f.availableRegions.clear();
+    f.availableRegions.addAll(availableRegions);
+    f.availableSubregions.clear();
+    f.availableSubregions.addAll(availableSubregions);
+    f.processType = processType;
     return f;
   }
 
   void next() {
     correctCountry = nextCorrectCountry();
+    /* debugPrint(processType == 0
+        ? 'Correct: ${correctCountry.name!.common!}, region: ${correctCountry.region!.name}'
+        : 'Correct: ${correctCountry.name!.common!}, region: ${correctCountry.subregion!}'); */
     wrongCountries.clear();
     names.clear();
     wrongCountries.addAll(provideWrongCountries(howManyWrongCountries));
@@ -76,6 +86,7 @@ class RegionsGameProcessControl {
     for (var e in wrongCountries) {
       if (processType == 0) names.add(e.region!.name);
       if (processType == 1) names.add(e.subregion!);
+      // debugPrint(processType == 0 ? e.region!.name : e.subregion!);
     }
     names.shuffle(Random(DateTime.now().second));
     correctNameIndex = names.indexWhere((e) =>
@@ -96,24 +107,32 @@ class RegionsGameProcessControl {
     final List<Country> countries = [];
     int howManySoFar = 0;
 
-    var c = Random().nextInt(CountriesList().list.length - 2);
-    while (howManySoFar < quantity) {
-      var item = CountriesList().list.elementAt(c);
-      var wv = processType == 0 ? item.region!.name : item.subregion!;
-      var cv = processType == 0
-          ? correctCountry.region!.name
-          : correctCountry.subregion!;
+    // get region or subregions
+    if (processType == 0) {
+      availableRegions.shuffle(Random(DateTime.now().second));
 
-      if (wv.toLowerCase() != cv.toLowerCase()) {
-        countries.add(item);
-        howManySoFar = howManySoFar + 1;
-        if (howManySoFar >= quantity) {
-          break;
+      for (var e in availableRegions) {
+        if (e.toLowerCase() != correctCountry.region!.name.toLowerCase()) {
+          countries.add(CountriesList().list.firstWhere((element) =>
+              element.region!.name.toLowerCase() == e.toLowerCase()));
+          howManySoFar++;
+          if (howManySoFar >= quantity) break;
         }
       }
-      c = c >= CountriesList().list.length ? 0 : c + 1;
+    } else {
+      availableSubregions.shuffle(Random(DateTime.now().second));
+
+      for (var e in availableSubregions) {
+        if (e.toLowerCase() != correctCountry.subregion!.toLowerCase()) {
+          countries.add(CountriesList().list.firstWhere((element) =>
+              element.subregion!.toLowerCase() == e.toLowerCase()));
+          howManySoFar++;
+          if (howManySoFar >= quantity) break;
+        }
+      }
     }
 
+    debugPrint('Size: ${countries.length}');
     return countries;
   }
 }

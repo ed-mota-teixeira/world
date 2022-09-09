@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 
 class MenuOptionItem extends StatelessWidget {
   final String title;
-  final VoidCallback onEasyPressed;
-  final VoidCallback onHardPressed;
-  final VoidCallback onRandomPressed;
+  final VoidCallback? onEasyPressed;
+  final VoidCallback? onHardPressed;
+  final VoidCallback? onRandomPressed;
   final VoidCallback? onLearnPressed;
 
   const MenuOptionItem(
       {super.key,
       required this.title,
-      required this.onEasyPressed,
-      required this.onHardPressed,
-      required this.onRandomPressed,
+      this.onEasyPressed,
+      this.onHardPressed,
+      this.onRandomPressed,
       this.onLearnPressed});
 
   @override
@@ -64,39 +64,42 @@ class MenuOptionItem extends StatelessWidget {
                             style: TextStyle(color: Colors.white70)),
                       ),
                     ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                        start: 12, end: 12, bottom: 12),
-                    child: OutlinedButton(
-                      onPressed: onEasyPressed,
-                      child: const Text('EASY',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: Colors.white70)),
+                  if (onEasyPressed != null)
+                    Padding(
+                      padding: const EdgeInsetsDirectional.only(
+                          start: 12, end: 12, bottom: 12),
+                      child: OutlinedButton(
+                        onPressed: onEasyPressed,
+                        child: const Text('EASY',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: Colors.white70)),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                        start: 12, end: 12, bottom: 12),
-                    child: OutlinedButton(
-                      onPressed: onRandomPressed,
-                      child: const Text('RANDOM',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: Colors.white70)),
+                  if (onRandomPressed != null)
+                    Padding(
+                      padding: const EdgeInsetsDirectional.only(
+                          start: 12, end: 12, bottom: 12),
+                      child: OutlinedButton(
+                        onPressed: onRandomPressed,
+                        child: const Text('RANDOM',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: Colors.white70)),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                        start: 12, end: 12, bottom: 12),
-                    child: OutlinedButton(
-                      onPressed: onHardPressed,
-                      child: const Text('HARD',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: Colors.white70)),
+                  if (onHardPressed != null)
+                    Padding(
+                      padding: const EdgeInsetsDirectional.only(
+                          start: 12, end: 12, bottom: 12),
+                      child: OutlinedButton(
+                        onPressed: onHardPressed,
+                        child: const Text('HARD',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: Colors.white70)),
+                      ),
                     ),
-                  ),
                 ],
               ),
             ],

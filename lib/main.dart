@@ -7,6 +7,7 @@ import 'package:countries/views/pages/error_page.dart';
 import 'package:countries/views/pages/game_page.dart';
 import 'package:countries/views/pages/learn_flags_page.dart';
 import 'package:countries/views/pages/menu_page.dart';
+import 'package:countries/views/pages/region_game_page.dart';
 import 'package:countries/views/pages/start_page.dart';
 import 'package:countries/views/transitions/transition_route.dart';
 import 'package:flutter/foundation.dart';
@@ -61,6 +62,9 @@ class MyApp extends ConsumerWidget {
             return createRoute(GamePage(data: data), TransitionType.fade);
           case kLearnFlagsRoute:
             return createRoute(const LearnFlagsPage(), TransitionType.fade);
+          case kRegionsGameRoute:
+            var data = settings.arguments as GamePageArgument;
+            return createRoute(RegionGamePage(data: data), TransitionType.fade);
           default:
             return createRoute(const ErrorPage(), TransitionType.fade);
         }

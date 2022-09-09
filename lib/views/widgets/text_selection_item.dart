@@ -9,6 +9,7 @@ class TextSelectionItem extends StatelessWidget {
   final double height;
   final double width;
   final bool isCorrect;
+  final double opacity;
   final VoidCallback? onPressed;
 
   const TextSelectionItem(
@@ -17,6 +18,7 @@ class TextSelectionItem extends StatelessWidget {
       required this.color,
       required this.height,
       required this.width,
+      this.opacity = 1,
       this.isCorrect = false,
       this.onPressed});
 
@@ -31,15 +33,19 @@ class TextSelectionItem extends StatelessWidget {
         style: ElevatedButton.styleFrom(backgroundColor: color, elevation: 0),
         onPressed: onPressed,
         child: Center(
-          child: Text(
-            text,
-            maxLines: 2,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: android
-                    ? Theme.of(context).textTheme.bodySmall!.fontSize
-                    : Theme.of(context).textTheme.titleLarge!.fontSize),
+          child: AnimatedOpacity(
+            opacity: opacity,
+            duration: const Duration(seconds: 1),
+            child: Text(
+              text,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: android
+                      ? Theme.of(context).textTheme.bodySmall!.fontSize
+                      : Theme.of(context).textTheme.titleLarge!.fontSize),
+            ),
           ),
         ),
       ),

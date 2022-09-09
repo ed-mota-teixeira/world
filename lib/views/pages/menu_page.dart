@@ -1,9 +1,11 @@
+import 'package:countries/controllers/region_provider.dart';
 import 'package:countries/data/lists.dart';
 import 'package:countries/models/countries_list.dart';
 import 'package:countries/models/country.dart';
 import 'package:countries/models/game_page_argument.dart';
 import 'package:countries/utils/routing/route_names.dart';
 import 'package:countries/views/widgets/capital_name_widget.dart';
+import 'package:countries/views/widgets/correct_flag_with_name_widget.dart';
 import 'package:countries/views/widgets/flag_widget.dart';
 import 'package:countries/views/widgets/menu_option_item.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +16,14 @@ class MenuPage extends ConsumerWidget {
 
   final titleFlags = 'FLAGS';
   final titleCapitals = 'CAPITALS';
+  final titleRegions = 'REGIONS';
 
   void goToGame(BuildContext context, String route, List<Country> countries,
-      Widget gWidget, String title) {
+      Widget gWidget, String title,
+      {int extra = 0}) {
     Navigator.of(context).pushNamed(route,
-        arguments: GamePageArgument(countries, gWidget, title: title));
+        arguments:
+            GamePageArgument(countries, gWidget, title: title, extra: extra));
   }
 
   void _goToEasyFlags(BuildContext context) {
@@ -71,6 +76,17 @@ class MenuPage extends ConsumerWidget {
     Navigator.of(context).pushNamed(kLearnFlagsRoute);
   }
 
+  void _goToRegions(BuildContext context) {
+    goToGame(context, kRegionsGameRoute, CountriesList().list,
+        const CorrectFlagWithName(), titleRegions);
+  }
+
+  void _goToSubregions(BuildContext context) {
+    goToGame(context, kRegionsGameRoute, CountriesList().list,
+        const CorrectFlagWithName(), titleRegions,
+        extra: 1);
+  }
+
   Widget flagsGameOptions(BuildContext context) {
     return MenuOptionItem(
         title: titleFlags,
@@ -86,6 +102,18 @@ class MenuPage extends ConsumerWidget {
         onEasyPressed: () => _goToEasyCapitals(context),
         onHardPressed: () => _goToHardCapitals(context),
         onRandomPressed: () => _goToRandomCapitals(context));
+  }
+
+  Widget regionsGameOptions(BuildContext context, WidgetRef ref) {
+    return MenuOptionItem(
+        title: titleRegions,
+        onEasyPressed: () {
+          ref.read(regionProvider).processType = 0;
+          _goToRegions(context);
+        },
+        onHardPressed: () {
+          ref.read(regionProvider).processType = 1;
+          _goToSubregions(context); });
   }
 
   @override
@@ -108,6 +136,10 @@ class MenuPage extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsetsDirectional.only(top: 24),
                   child: capitalsGameOptions(context),
+                ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(top: 24),
+                  child: regionsGameOptions(context, ref),
                 ),
               ],
             ),

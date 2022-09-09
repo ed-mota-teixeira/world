@@ -10,6 +10,7 @@ class SelectionPad extends StatelessWidget {
   final int correctIndex;
   final VoidCallback onCorrectPressed;
   final VoidCallback onIncorrectPressed;
+  final double opacity;
 
   const SelectionPad(
       {super.key,
@@ -20,7 +21,8 @@ class SelectionPad extends StatelessWidget {
       required this.texts,
       required this.correctIndex,
       required this.onCorrectPressed,
-      required this.onIncorrectPressed});
+      required this.onIncorrectPressed,
+      this.opacity = 1});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,7 @@ class SelectionPad extends StatelessWidget {
           // the NumberButton widget is defined in the bottom of this file
           children: [
             TextSelectionItem(
+              opacity: correctIndex == 0 ? 1 : opacity,
               text: texts.elementAt(0),
               width: buttonWidth,
               height: buttonHeight,
@@ -45,6 +48,7 @@ class SelectionPad extends StatelessWidget {
                   correctIndex == 0 ? onCorrectPressed : onIncorrectPressed,
             ),
             TextSelectionItem(
+              opacity: correctIndex == 1 ? 1 : opacity,
               text: texts.elementAt(1),
               width: buttonWidth,
               height: buttonHeight,
@@ -62,6 +66,7 @@ class SelectionPad extends StatelessWidget {
           // the NumberButton widget is defined in the bottom of this file
           children: [
             TextSelectionItem(
+              opacity: correctIndex == 2 ? 1 : opacity,
               text: texts.elementAt(2),
               width: buttonWidth,
               height: buttonHeight,
@@ -71,6 +76,7 @@ class SelectionPad extends StatelessWidget {
                   correctIndex == 2 ? onCorrectPressed : onIncorrectPressed,
             ),
             TextSelectionItem(
+              opacity: correctIndex == 3 ? 1 : opacity,
               text: texts.elementAt(3),
               width: buttonWidth,
               height: buttonHeight,

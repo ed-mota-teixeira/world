@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:countries/controllers/country_provider.dart';
+import 'package:countries/controllers/region_provider.dart';
 import 'package:countries/controllers/sound.dart';
 import 'package:countries/models/game_page_argument.dart';
 import 'package:countries/utils/constants.dart';
@@ -11,16 +11,16 @@ import 'package:countries/views/widgets/selection_pad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class GamePage extends ConsumerStatefulWidget {
+class RegionGamePage extends ConsumerStatefulWidget {
   final GamePageArgument data;
 
-  const GamePage({super.key, required this.data});
+  const RegionGamePage({super.key, required this.data});
 
   @override
-  createState() => _GamePage();
+  createState() => _RegionGamePage();
 }
 
-class _GamePage extends ConsumerState<GamePage> {
+class _RegionGamePage extends ConsumerState<RegionGamePage> {
   double _progressValue = 0.0;
   double _startValue = 0.0;
   bool done = false;
@@ -42,11 +42,11 @@ class _GamePage extends ConsumerState<GamePage> {
     _good = false;
     done = false;
     widget.data.list.shuffle(Random(DateTime.now().second));
-    ref.read(countryProvider).init(widget.data.list);
+    ref.read(regionProvider).init(widget.data.list);
   }
 
   void _updateProgress(bool correctPressed) {
-    ref.read(countryProvider).answered = ref.read(countryProvider).answered + 1;
+    ref.read(regionProvider).answered = ref.read(regionProvider).answered + 1;
 
     if (correctPressed) {
       setState(() {
@@ -64,15 +64,15 @@ class _GamePage extends ConsumerState<GamePage> {
     Future.delayed(const Duration(milliseconds: 1000), () {
       if (mounted) {
         setState(() {
-          _progressValue = ref.read(countryProvider).correctAnswers /
+          _progressValue = ref.read(regionProvider).correctAnswers /
               100 *
               kMaxAnswersPerGame;
-          done = ref.read(countryProvider).answered >= kMaxAnswersPerGame;
+          done = ref.read(regionProvider).answered >= kMaxAnswersPerGame;
         });
       }
 
       if (done) {
-        var ansW = ref.read(countryProvider).correctAnswers;
+        var ansW = ref.read(regionProvider).correctAnswers;
         if (ansW >= 8) {
           Sound().winner80Sound.play(AssetSource(kWin80Sound));
         } else if (ansW > 5) {
@@ -105,7 +105,7 @@ class _GamePage extends ConsumerState<GamePage> {
               _opacity = 1;
             });
           }
-          if (mounted) ref.read(countryProvider.notifier).next();
+          if (mounted) ref.read(regionProvider.notifier).next();
         });
       }
     });
@@ -138,7 +138,7 @@ class _GamePage extends ConsumerState<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-    var control = ref.watch(countryProvider);
+    var control = ref.watch(regionProvider);
 
     return SafeArea(
         child: Scaffold(
@@ -185,7 +185,7 @@ class _GamePage extends ConsumerState<GamePage> {
                 buttonHeight: 64,
                 buttonWidth: MediaQuery.of(context).size.width * 0.4,
                 textColor: Colors.white,
-                texts: ref.read(countryProvider).names,
+                texts: ref.read(regionProvider).names,
                 correctIndex: control.correctNameIndex,
                 onCorrectPressed: () {
                   if (_doNotTouch) return;
@@ -202,7 +202,9 @@ class _GamePage extends ConsumerState<GamePage> {
                   if (mounted) {
                     AnimatedSnackBar.material(
                       duration: const Duration(milliseconds: 700),
-                      control.correctCountry.name!.common!,
+                      control.processType == 0
+                          ? control.correctCountry.region!.name
+                          : control.correctCountry.subregion!,
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
                       type: AnimatedSnackBarType.warning,
                       mobileSnackBarPosition: MobileSnackBarPosition.top,
