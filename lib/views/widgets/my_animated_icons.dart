@@ -39,28 +39,3 @@ class _MyAnimatedIcon extends State<MyAnimatedIcons> {
     );
   }
 }
-
-/*
-
-  IconButton(
-  icon: AnimatedSwitcher(
-  duration: const Duration(milliseconds: 350),
-  transitionBuilder: (child, anim) => RotationTransition(
-  turns: child.key == ValueKey('icon1')
-  ? Tween<double>(begin: 1, end: 0.75).animate(anim)
-      : Tween<double>(begin: 0.75, end: 1).animate(anim),
-  child: ScaleTransition(scale: anim, child: child),
-  ),
-  child: _currIndex == 0
-  ? Icon(Icons.close, key: const ValueKey('icon1'))
-      : Icon(
-  Icons.arrow_back,
-  key: const ValueKey('icon2'),
-  )),
-  onPressed: () {
-  setState(() {
-  _currIndex = _currIndex == 0 ? 1 : 0;
-  });
-  },
-  )
- */

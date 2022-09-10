@@ -53,11 +53,13 @@ class _StartPage extends ConsumerState<StartPage> {
 
                     if (snapshot.hasData) {
                       if (snapshot.data != null) {
-                        Future.delayed(const Duration(seconds: 1)).then((_) {
-                          // debugPrint(countriesList.length.toString());
-                          Navigator.of(context)
-                              .pushReplacementNamed(kMenuRoute);
-                        });
+                        ref
+                            .read(soundProvider.notifier)
+                            .update((_) => Sound().isEnabled);
+                        Future.delayed(const Duration(seconds: 1)).then((_) =>
+                            // debugPrint(countriesList.length.toString());
+                            Navigator.of(context)
+                                .pushReplacementNamed(kMenuRoute));
                         return const Text('Loading');
                       }
                     }

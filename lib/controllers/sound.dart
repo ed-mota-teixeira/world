@@ -2,6 +2,13 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:countries/controllers/app_preferences.dart';
 import 'package:countries/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final soundProvider = StateProvider<bool>((ref) => Sound().isEnabled);
+
+// A provider which computes whether the user have sound or not
+final haveSoundProvider =
+    Provider<bool>((ref) => ref.watch(soundProvider) != false);
 
 class Sound {
   final buttonClickPlayer = AudioPlayer();

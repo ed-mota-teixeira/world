@@ -14,13 +14,6 @@ import 'package:countries/views/widgets/my_animated_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final soundProvider = StateProvider<bool>((ref) => Sound().isEnabled);
-
-// A provider which computes whether the user have sound or not
-final haveSoundProvider = Provider<bool>((ref) {
-  return ref.watch(soundProvider) != false;
-});
-
 class MenuPage extends ConsumerWidget {
   const MenuPage({super.key});
 
@@ -138,8 +131,8 @@ class MenuPage extends ConsumerWidget {
           centerTitle: true,
           actions: [
             MyAnimatedIcons(
-              iconData1: Icons.music_note,
-              iconData2: Icons.music_off,
+              iconData1: haveSound ? Icons.music_note : Icons.music_off,
+              iconData2: !haveSound ? Icons.music_off : Icons.music_note,
               onPressed: () {
                 Sound().isEnabled = !Sound().isEnabled;
                 ref
