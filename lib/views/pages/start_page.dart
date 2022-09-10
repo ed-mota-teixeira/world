@@ -19,7 +19,9 @@ class _StartPage extends ConsumerState<StartPage> {
     String data = await DefaultAssetBundle.of(context)
         .loadString("assets/countries.json");
     CountriesList().list = countriesFromJson(data);
-    await Sound().setSources();
+    await Sound().setSources().catchError((e) {
+      debugPrint(e.toString());
+    });
     return data;
   }
 
@@ -56,7 +58,7 @@ class _StartPage extends ConsumerState<StartPage> {
                           Navigator.of(context)
                               .pushReplacementNamed(kMenuRoute);
                         });
-                        return const Text('All done');
+                        return const Text('Loading');
                       }
                     }
 

@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:countries/controllers/app_preferences.dart';
 import 'package:countries/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,8 @@ class Sound {
   final winner80Sound = AudioPlayer();
   final looseSound = AudioPlayer();
   final winner60Sound = AudioPlayer();
+
+  bool isEnabled = true;
 
   Sound._internal();
   static final Sound _instance = Sound._internal();
@@ -23,6 +26,8 @@ class Sound {
     await winner80Sound.setSource(AssetSource(kWin80Sound));
     await looseSound.setSource(AssetSource(kFailedSound));
     await winner60Sound.setSource(AssetSource(kWin60Sound));
+
+    isEnabled = await AppPreferences().soundEnabled();
   }
 
   void disposeAll() {

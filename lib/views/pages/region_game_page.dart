@@ -73,12 +73,14 @@ class _RegionGamePage extends ConsumerState<RegionGamePage> {
 
       if (done) {
         var ansW = ref.read(regionProvider).correctAnswers;
-        if (ansW >= 8) {
-          Sound().winner80Sound.play(AssetSource(kWin80Sound));
-        } else if (ansW > 5) {
-          Sound().winner60Sound.play(AssetSource(kWin60Sound));
-        } else {
-          Sound().looseSound.play(AssetSource(kFailedSound));
+        if (Sound().isEnabled) {
+          if (ansW >= 8) {
+            Sound().winner80Sound.play(AssetSource(kWin80Sound));
+          } else if (ansW > 5) {
+            Sound().winner60Sound.play(AssetSource(kWin60Sound));
+          } else {
+            Sound().looseSound.play(AssetSource(kFailedSound));
+          }
         }
 
         Future.delayed(const Duration(milliseconds: 300), () {
@@ -189,15 +191,19 @@ class _RegionGamePage extends ConsumerState<RegionGamePage> {
                 correctIndex: control.correctNameIndex,
                 onCorrectPressed: () {
                   if (_doNotTouch) return;
-                  Sound()
-                      .correctSelectionPlayer
-                      .play(AssetSource(kCorrectSound));
+                  if (Sound().isEnabled) {
+                    Sound()
+                        .correctSelectionPlayer
+                        .play(AssetSource(kCorrectSound));
+                  }
                   control.correctAnswers = control.correctAnswers + 1;
                   _updateProgress(true);
                 },
                 onIncorrectPressed: () {
                   if (_doNotTouch) return;
-                  Sound().wrongSelectionPlayer.play(AssetSource(kWrongSound));
+                  if (Sound().isEnabled) {
+                    Sound().wrongSelectionPlayer.play(AssetSource(kWrongSound));
+                  }
                   _updateProgress(false);
                   if (mounted) {
                     AnimatedSnackBar.material(

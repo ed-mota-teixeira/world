@@ -12,6 +12,7 @@ class CorrectFlagWithName extends ConsumerWidget {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         FlagImage(flagCountryCode: c.cca2!.toLowerCase()),
         Padding(

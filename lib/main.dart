@@ -12,21 +12,29 @@ import 'package:countries/views/pages/start_page.dart';
 import 'package:countries/views/transitions/transition_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_size/window_size.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (!kIsWeb) {
-    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-      setWindowTitle('WORLD QUIZ');
-      setWindowMaxSize(const Size(1056, 1064));
-      setWindowMinSize(const Size(800, 656));
+  try {
+    if (!kIsWeb) {
+      if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+        setWindowTitle('WORLD QUIZ');
+        setWindowMaxSize(const Size(1056, 1000));
+        setWindowMinSize(const Size(800, 656));
+      }
     }
+  } catch (e) {
+    debugPrint(e.toString());
   }
 
-  runApp(const ProviderScope(child: MyApp()));
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((value) => runApp(const ProviderScope(child: MyApp())));
 }
 
 class MyApp extends ConsumerWidget {

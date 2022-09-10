@@ -1,4 +1,6 @@
+import 'package:countries/controllers/app_preferences.dart';
 import 'package:countries/controllers/region_provider.dart';
+import 'package:countries/controllers/sound.dart';
 import 'package:countries/data/lists.dart';
 import 'package:countries/models/countries_list.dart';
 import 'package:countries/models/country.dart';
@@ -8,8 +10,16 @@ import 'package:countries/views/widgets/capital_name_widget.dart';
 import 'package:countries/views/widgets/correct_flag_with_name_widget.dart';
 import 'package:countries/views/widgets/flag_widget.dart';
 import 'package:countries/views/widgets/menu_option_item.dart';
+import 'package:countries/views/widgets/my_animated_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final soundProvider = StateProvider<bool>((ref) => Sound().isEnabled);
+
+// A provider which computes whether the user have sound or not
+final haveSoundProvider = Provider<bool>((ref) {
+  return ref.watch(soundProvider) != false;
+});
 
 class MenuPage extends ConsumerWidget {
   const MenuPage({super.key});
@@ -113,16 +123,32 @@ class MenuPage extends ConsumerWidget {
         },
         onHardPressed: () {
           ref.read(regionProvider).processType = 1;
-          _goToSubregions(context); });
+          _goToSubregions(context);
+        });
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final haveSound = ref.watch(haveSoundProvider);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: const Text('WORLD QUIZ'),
           centerTitle: true,
+          actions: [
+            MyAnimatedIcons(
+              iconData1: Icons.music_note,
+              iconData2: Icons.music_off,
+              onPressed: () {
+                Sound().isEnabled = !Sound().isEnabled;
+                ref
+                    .read(soundProvider.notifier)
+                    .update((_) => Sound().isEnabled);
+                AppPreferences().save(Sound().isEnabled);
+              },
+            ),
+          ],
         ),
         body: Center(
           child: SingleChildScrollView(

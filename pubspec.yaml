@@ -38,7 +38,7 @@ dependencies:
   # strings
   quiver: ^3.1.0
   # snackbar
-  animated_snack_bar: ^0.2.2
+  animated_snack_bar: ^0.3.0
   # progress
   percent_indicator: ^4.2.2
   # numbers
@@ -47,6 +47,8 @@ dependencies:
   image_fade: ^0.6.1
   # sound
   audioplayers: ^1.0.1
+  # storage
+  shared_preferences: ^2.0.15
   # Microsoft Windows specific
   window_size:
     git:
@@ -58,6 +60,24 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.1
   dart_code_metrics: ^4.17.1
+  flutter_launcher_icons: ^0.10.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
+  min_sdk_android: 21 # android
+  adaptive_icon_background: "#ff333333"
+  adaptive_icon_foreground: "assets/icon/icon.png"
+  web:
+    generate: true
+    image_path: "assets/icon/icon.png"
+    background_color: "#ff333333"
+    theme_color: "#ff333333"
+  windows:
+    generate: true
+    image_path: "assets/icon/icon.png"
+    icon_size: 128
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -75,6 +95,7 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
+    - assets/icon/icon.png
     - assets/countries.json
     - assets/flags/
     - assets/sounds/
