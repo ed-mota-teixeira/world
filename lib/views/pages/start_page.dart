@@ -33,6 +33,8 @@ class _StartPage extends ConsumerState<StartPage> {
 
   @override
   Widget build(BuildContext context) {
+    final navigator = Navigator.of(context);
+
     return SafeArea(
       child: Scaffold(
         appBar: null,
@@ -48,7 +50,7 @@ class _StartPage extends ConsumerState<StartPage> {
                   case ConnectionState.active:
                   case ConnectionState.done:
                     if (snapshot.hasError) {
-                      return const Text('Something went wrong!');
+                      return const Text('Ops! Sorry! Something went wrong!');
                     }
 
                     if (snapshot.hasData) {
@@ -58,9 +60,8 @@ class _StartPage extends ConsumerState<StartPage> {
                             .update((_) => Sound().isEnabled);
                         Future.delayed(const Duration(seconds: 1)).then((_) =>
                             // debugPrint(countriesList.length.toString());
-                            Navigator.of(context)
-                                .pushReplacementNamed(kMenuRoute));
-                        return const Text('Loading');
+                            navigator.pushReplacementNamed(kMenuRoute));
+                        return const CircularProgressIndicator();
                       }
                     }
 

@@ -49,16 +49,20 @@ class _RegionGamePage extends ConsumerState<RegionGamePage> {
     ref.read(regionProvider).answered = ref.read(regionProvider).answered + 1;
 
     if (correctPressed) {
-      setState(() {
-        _good = true;
-        _doNotTouch = true;
-        _opacity = 0;
-      });
+      if (mounted) {
+        setState(() {
+          _good = true;
+          _doNotTouch = true;
+          _opacity = 0;
+        });
+      }
     } else {
-      setState(() {
-        _doNotTouch = true;
-        _opacity = 0;
-      });
+      if (mounted) {
+        setState(() {
+          _doNotTouch = true;
+          _opacity = 0;
+        });
+      }
     }
 
     Future.delayed(const Duration(milliseconds: 1000), () {
