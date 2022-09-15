@@ -20,24 +20,29 @@ class MenuOptionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var w = MediaQuery.of(context).size.width;
-    var isDesktop = !kIsWeb
+    final w = MediaQuery.of(context).size.width;
+    final isDesktop = !kIsWeb
         ? Platform.isWindows || Platform.isLinux || Platform.isMacOS
         : true;
 
-    return Card(
-      color: Theme.of(context).primaryColor,
-      semanticContainer: false,
-      margin: const EdgeInsets.all(8),
-      child: SizedBox(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
           width: isDesktop ? w / 2 : w - 48,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.all(12),
+          child: Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(end: 12),
+                  child: Icon(
+                    Icons.circle_rounded,
+                    color: Theme.of(context).primaryColor,
+                    size: 12,
+                  ),
+                ),
+                Expanded(
                   child: Text(
                     title,
                     maxLines: 1,
@@ -45,11 +50,23 @@ class MenuOptionItem extends StatelessWidget {
                     style: TextStyle(
                         fontSize:
                             Theme.of(context).textTheme.subtitle1!.fontSize,
-                        color: Colors.white60),
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor),
                   ),
                 ),
-              ),
-              Wrap(
+              ],
+            ),
+          ),
+        ),
+        Card(
+          color: Theme.of(context).primaryColor,
+          semanticContainer: false,
+          margin: const EdgeInsets.all(8),
+          child: SizedBox(
+            width: isDesktop ? w / 2 : w - 48,
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Wrap(
                 alignment: WrapAlignment.center,
                 children: [
                   if (onLearnPressed != null)
@@ -102,8 +119,10 @@ class MenuOptionItem extends StatelessWidget {
                     ),
                 ],
               ),
-            ],
-          )),
+            ),
+          ),
+        )
+      ],
     );
   }
 }
