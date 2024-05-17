@@ -6,6 +6,7 @@ class AppPreferences {
     SharedPreferences.getInstance().then((pref) {
       pref.setBool('sound', sound).catchError((e) {
         debugPrint('Failed to save preference');
+        return true;
       });
     });
   }

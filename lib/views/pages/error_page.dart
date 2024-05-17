@@ -7,7 +7,9 @@ class ErrorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SafeArea(
       child: Scaffold(
-          appBar: null, body: Center(child: Text('Ops! Sorry! Something went wrong!'))),
+        appBar: null,
+        body: Center(child: Text('Ops! Sorry! Something went wrong!')),
+      ),
     );
   }
 }

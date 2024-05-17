@@ -27,8 +27,8 @@ class NameWidget extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: android
-                  ? Theme.of(context).textTheme.subtitle1!.fontSize
-                  : Theme.of(context).textTheme.headline4!.fontSize,
+                  ? Theme.of(context).textTheme.titleMedium!.fontSize
+                  : Theme.of(context).textTheme.headlineMedium!.fontSize,
               color: Colors.white),
         ),
       ),),

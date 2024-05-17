@@ -49,7 +49,7 @@ class MenuOptionItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontSize:
-                            Theme.of(context).textTheme.subtitle1!.fontSize,
+                            Theme.of(context).textTheme.titleMedium!.fontSize,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).primaryColor),
                   ),
