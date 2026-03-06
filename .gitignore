@@ -48,3 +48,5 @@ app.*.map.json
 /ios/Runner/GeneratedPluginRegistrant.h
 /android/local.properties
 /android/.gradle/
+/ios/Flutter/
+/android/gradle/wrapper/gradle-wrapper.jar
