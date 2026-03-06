@@ -47,3 +47,4 @@ app.*.map.json
 /ios/Flutter/Generated.xcconfig
 /ios/Runner/GeneratedPluginRegistrant.h
 /android/local.properties
+/android/.gradle/
