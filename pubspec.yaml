@@ -17,10 +17,13 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.3+4
+version: 1.1.0+5
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
+  sdk: '>=3.11.0 <4.0.0'
+  flutter: '>=3.41.4 <4.0.0'
+
+
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -34,21 +37,21 @@ dependencies:
   # state management
   flutter_riverpod: ^1.0.4
   # icons
-  cupertino_icons: ^1.0.5
+  cupertino_icons: ^1.0.8
   # strings
-  quiver: ^3.1.0
+  quiver: ^3.2.2
   # snackbar
-  animated_snack_bar: ^0.3.0
+  animated_snack_bar: ^0.4.0
   # progress
-  percent_indicator: ^4.2.2
+  percent_indicator: ^4.2.5
   # numbers
-  animated_flip_counter: ^0.2.5
+  animated_flip_counter: ^0.3.4
   # images
-  image_fade: ^0.6.1
+  image_fade: ^0.6.2
   # sound
-  audioplayers: ^1.0.1
+  audioplayers: ^6.6.0
   # storage
-  shared_preferences: ^2.0.15
+  shared_preferences: ^2.5.4
   # Microsoft Windows specific
   window_size:
     git:
@@ -58,8 +61,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.1
-  flutter_launcher_icons: ^0.10.0
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
 
 flutter_icons:
   android: "launcher_icon"

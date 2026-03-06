@@ -2,6 +2,10 @@
     package="com.edarea.countries.countries">
    <application
         android:label="World"
+        android:isGame="true"
+        android:appCategory="game"
+        android:allowBackup="true"
+        android:fullBackupContent="true"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
@@ -9,7 +13,7 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensorPortrait"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
