@@ -12,44 +12,55 @@ class LearnFlagsPage extends ConsumerWidget {
     final controller = ref.watch(learnProvider);
 
     return SafeArea(
-        child: Scaffold(
-      appBar:
-          AppBar(automaticallyImplyLeading: true, title: const Text('LEARN')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            FlagImage(flagCountryCode: controller.cca2!.toLowerCase()),
-            NameWidget(text: controller.name!.common!.toUpperCase()),
-            ButtonBar(
-              alignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          title: const Text('LEARN'),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              FlagImage(flagCountryCode: controller.cca2!.toLowerCase()),
+              NameWidget(text: controller.name!.common!.toUpperCase()),
+              OverflowBar(
+                alignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).primaryColor,
-                      elevation: 0),
-                  onPressed: () => ref.read(learnProvider.notifier).previous(),
-                  child: const Center(
-                    child: Icon(Icons.arrow_back_rounded,
-                        size: 60, color: Colors.white),
+                      elevation: 0,
+                    ),
+                    onPressed: () =>
+                        ref.read(learnProvider.notifier).previous(),
+                    child: const Center(
+                      child: Icon(
+                        Icons.arrow_back_rounded,
+                        size: 60,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).primaryColor,
-                      elevation: 0),
-                  onPressed: () => ref.read(learnProvider.notifier).next(),
-                  child: const Center(
-                    child: Icon(Icons.arrow_forward_rounded,
-                        size: 60, color: Colors.white),
+                      elevation: 0,
+                    ),
+                    onPressed: () => ref.read(learnProvider.notifier).next(),
+                    child: const Center(
+                      child: Icon(
+                        Icons.arrow_forward_rounded,
+                        size: 60,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }
