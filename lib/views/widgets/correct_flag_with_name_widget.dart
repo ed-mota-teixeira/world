@@ -16,9 +16,13 @@ class CorrectFlagWithName extends ConsumerWidget {
       children: [
         FlagImage(flagCountryCode: c.cca2!.toLowerCase()),
         Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Text(c.name!.common!,
-                maxLines: 2, overflow: TextOverflow.ellipsis)),
+          padding: const EdgeInsets.only(top: 8),
+          child: Text(
+            c.name!.common!,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ],
     );
   }

@@ -7,8 +7,11 @@ class FinalScoreIndicatorWidget extends ConsumerWidget {
   final double percentValue;
   final num percentCounter;
 
-  const FinalScoreIndicatorWidget(
-      {super.key, required this.percentValue, required this.percentCounter});
+  const FinalScoreIndicatorWidget({
+    super.key,
+    required this.percentValue,
+    required this.percentCounter,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,8 +30,10 @@ class FinalScoreIndicatorWidget extends ConsumerWidget {
       ),
       header: const Padding(
         padding: EdgeInsets.all(24),
-        child: Text("Correct answers",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0)),
+        child: Text(
+          "Correct answers",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+        ),
       ),
       circularStrokeCap: CircularStrokeCap.round,
       animationDuration: 1000,

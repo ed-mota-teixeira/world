@@ -10,13 +10,14 @@ class MenuOptionItem extends StatelessWidget {
   final VoidCallback? onRandomPressed;
   final VoidCallback? onLearnPressed;
 
-  const MenuOptionItem(
-      {super.key,
-      required this.title,
-      this.onEasyPressed,
-      this.onHardPressed,
-      this.onRandomPressed,
-      this.onLearnPressed});
+  const MenuOptionItem({
+    super.key,
+    required this.title,
+    this.onEasyPressed,
+    this.onHardPressed,
+    this.onRandomPressed,
+    this.onLearnPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +49,12 @@ class MenuOptionItem extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize:
-                            Theme.of(context).textTheme.titleMedium!.fontSize,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor),
+                      fontSize: Theme.of(
+                        context,
+                      ).textTheme.titleMedium!.fontSize,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
                 ),
               ],
@@ -72,56 +75,76 @@ class MenuOptionItem extends StatelessWidget {
                   if (onLearnPressed != null)
                     Padding(
                       padding: const EdgeInsetsDirectional.only(
-                          start: 12, end: 12, bottom: 12),
+                        start: 12,
+                        end: 12,
+                        bottom: 12,
+                      ),
                       child: OutlinedButton(
                         onPressed: onLearnPressed,
-                        child: const Text('LEARN',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: Colors.white70)),
+                        child: const Text(
+                          'LEARN',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.white70),
+                        ),
                       ),
                     ),
                   if (onEasyPressed != null)
                     Padding(
                       padding: const EdgeInsetsDirectional.only(
-                          start: 12, end: 12, bottom: 12),
+                        start: 12,
+                        end: 12,
+                        bottom: 12,
+                      ),
                       child: OutlinedButton(
                         onPressed: onEasyPressed,
-                        child: const Text('EASY',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: Colors.white70)),
+                        child: const Text(
+                          'EASY',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.white70),
+                        ),
                       ),
                     ),
                   if (onRandomPressed != null)
                     Padding(
                       padding: const EdgeInsetsDirectional.only(
-                          start: 12, end: 12, bottom: 12),
+                        start: 12,
+                        end: 12,
+                        bottom: 12,
+                      ),
                       child: OutlinedButton(
                         onPressed: onRandomPressed,
-                        child: const Text('RANDOM',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: Colors.white70)),
+                        child: const Text(
+                          'RANDOM',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.white70),
+                        ),
                       ),
                     ),
                   if (onHardPressed != null)
                     Padding(
                       padding: const EdgeInsetsDirectional.only(
-                          start: 12, end: 12, bottom: 12),
+                        start: 12,
+                        end: 12,
+                        bottom: 12,
+                      ),
                       child: OutlinedButton(
                         onPressed: onHardPressed,
-                        child: const Text('HARD',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: Colors.white70)),
+                        child: const Text(
+                          'HARD',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.white70),
+                        ),
                       ),
                     ),
                 ],
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
